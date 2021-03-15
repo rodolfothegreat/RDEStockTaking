@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">RDE Stock Taking</string>
+    <string name="label_scan_location">Scan Location</string>
+    <string name="label_scan_barcode">Scan Barcode</string>
+    <string name="label_scan_qty">Input Quantity</string>
+    <string name="label_sku">Add SKU</string>
+    <string name="hard_enter">Hard Enter Key</string>
+    <string name="default_one">Default 1</string>
+    <string name="lock_loc">Lock Loc</string>
+    <string name="save_data">Save Data</string>
+    <string name="share_date">Share Data</string>
+    <string name="label_location">Location</string>
+    <string name="label_barcode">Barcode</string>
+    <string name="label_qty">Quantity</string>
+
 </resources>
