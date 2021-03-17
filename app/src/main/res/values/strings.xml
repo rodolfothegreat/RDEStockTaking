@@ -8,9 +8,10 @@
     <string name="default_one">Default 1</string>
     <string name="lock_loc">Lock Loc</string>
     <string name="save_data">Save Data</string>
-    <string name="share_date">Share Data</string>
+    <string name="share_data">Share Data</string>
+    <string name="clear_data">Clear List</string>
     <string name="label_location">Location</string>
     <string name="label_barcode">Barcode</string>
     <string name="label_qty">Quantity</string>
-
+    <string name="view_list">View List</string>
 </resources>
