@@ -14,4 +14,10 @@
     <string name="label_barcode">Barcode</string>
     <string name="label_qty">Quantity</string>
     <string name="view_list">View List</string>
+    <string name="title_activity_list">ListActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

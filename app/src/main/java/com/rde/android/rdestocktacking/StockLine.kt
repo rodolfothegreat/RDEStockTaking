@@ -14,7 +14,7 @@ class StockLine() {
 
     fun toCsvString() : String
     {
-        return location.replace(",", ";")  + barcode.replace(",", ";")  + "," + qty.toString()
+        return location.replace(",", ";") + "," + barcode.replace(",", ";")  + "," + qty.toString()
     }
 
 
