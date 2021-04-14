@@ -48,8 +48,15 @@ class MainActivity : AppCompatActivity() {
 
         cbDefault1.setOnClickListener(View.OnClickListener { setEditBoxes() })
         cbHardEnter.setOnClickListener(View.OnClickListener { setEditBoxes() })
-    }
+        btnView.setOnClickListener {
+            val intent  = Intent (this@MainActivity, ListActivity::class.java)
+                //intent.putExtra()
+                startActivity(intent);
 
+        }
+
+
+    }
     fun shareData()
     {
         saveAll();
