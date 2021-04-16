@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         cbHardEnter.setOnClickListener(View.OnClickListener { setEditBoxes() })
         btnView.setOnClickListener {
             val intent  = Intent (this@MainActivity, ListActivity::class.java)
-                //intent.putExtra()
+                intent.putExtra(FILE_NAME_ITEM, FILE_NAME)
                 startActivity(intent);
 
         }
@@ -420,6 +420,7 @@ class MainActivity : AppCompatActivity() {
     companion object
     {
         const val FILE_NAME = "barcodes.csv"
+        const val FILE_NAME_ITEM = "file_name_item"
         const val EXPORT_FILE = "download.txt"
         const val TAG = "MainActivity"
 
