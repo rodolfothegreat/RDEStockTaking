@@ -27,10 +27,64 @@ class ListActivity : AppCompatActivity() {
         var anAdapter = StockListAdpter(lstBarcode, this);
         rvLList.adapter = anAdapter
         rvLList.adapter?.notifyDataSetChanged()
+        updateEB()
 
-        //anAdapter.setIdListItemEdit(StockListAdpter.IdListItemEdit )
+        val listemery = object : StockListAdpter.IdListItemEdit{
+            override fun itemEdit(index: Int) {
+                if(index < 0 || index >= lstBarcode.size)
+                    return;
+
+                val rowData = lstBarcode[index]
+                val fragmentManager = getSupportFragmentManager();
+                val dlg = RecordDlg.newInstance(rowData.location, rowData.barcode, rowData.qty);
+                dlg.show(fragmentManager, "iDDConfirmationlDlg")
+                dlg.idSaveDlgListener = object : RecordDlg.IdSaveDlgListener{
+                    override fun onsave(qty: Int) {
+                        rowData.qty = qty
+                        this@ListActivity.rvLList.adapter?.notifyItemChanged(index)
+                        updateEB()
+                    }
+
+                }
+            }
 
 
+            override fun itemDelete(index: Int) {
+                if(index < 0 || index >= lstBarcode.size)
+                    return;
+
+                val rowData = lstBarcode[index]
+                val fragmentManager = getSupportFragmentManager();
+                val dlg = ConfirmationDlg.newInstance(
+                    "Are you sure you want to delete the barcode " + rowData.barcode + "?",
+                    1
+                );
+                dlg.show(fragmentManager, "iDDConfirmationlDlg")
+                dlg.idConfirmationListener = object : ConfirmationDlg.IdConfirmDlgListener {
+                    override fun onConfirm(itemIndex: Int) {
+                        lstBarcode.removeAt(index)
+                        this@ListActivity.rvLList.adapter?.notifyDataSetChanged();
+                        updateEB()
+                    }
+
+                }
+
+
+            }
+
+        }
+
+        anAdapter.setIdListItemEdit( listemery)
+
+
+    }
+
+    private fun updateEB()
+    {
+        tvTotalRow.text = "Total Rows: " + lstBarcode.count().toString();
+        var totQty : Int = 0;
+        lstBarcode.forEach {totQty = totQty + it.qty }
+        tvTotalQty.text = "Total Quantity: " + totQty.toString();
     }
 
     private fun getAll()
@@ -138,6 +192,7 @@ class ListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getAll()
+        updateEB()
     }
 
     companion object {
