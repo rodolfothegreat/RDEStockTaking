@@ -1,8 +1,10 @@
 package com.rde.android.rdestocktacking
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -74,9 +76,29 @@ class ListActivity : AppCompatActivity() {
 
         }
 
-        anAdapter.setIdListItemEdit( listemery)
+        anAdapter.setIdListItemEdit(listemery)
 
+        // calling the action bar
+        var actionBar = getSupportActionBar()
 
+        // showing the back button in action bar
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true)
+        }
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onContextItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return true
     }
 
     private fun updateEB()
@@ -100,7 +122,7 @@ class ListActivity : AppCompatActivity() {
         getDataFromFile(fileName!!)
     }
 
-    private fun getDataFromFile(csvFileName : String)
+    private fun getDataFromFile(csvFileName: String)
     {
         if (csvFileName == null || csvFileName.equals("")) return
         val root = getExternalFilesDir(null)
@@ -128,7 +150,7 @@ class ListActivity : AppCompatActivity() {
             rvLList.adapter?.notifyDataSetChanged();
 
         }
-        catch (ex : Exception)
+        catch (ex: Exception)
         {
             Log.e(ListActivity.TAG, " Error reading file " + afilename + " " + ex.message)
         }
