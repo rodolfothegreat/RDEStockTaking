@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import com.shawnlin.numberpicker.NumberPicker
 import kotlinx.android.synthetic.main.record_dlg.view.*
@@ -62,6 +63,12 @@ class RecordDlg : DialogFragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        var params = dialog?.window?.attributes
+        params?.width  = ConstraintLayout.LayoutParams.MATCH_PARENT
+        dialog?.window?.attributes = params
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

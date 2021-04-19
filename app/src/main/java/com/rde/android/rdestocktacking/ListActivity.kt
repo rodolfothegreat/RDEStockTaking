@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.BufferedWriter
@@ -87,17 +88,24 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    override fun onContextItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                onBackPressed()
                 return true
             }
         }
-        return super.onContextItemSelected(item)
+        return super.onOptionsItemSelected(item)
+    }
+
+    public override fun onBackPressed()
+    {
+        super.onBackPressed()
+        this.finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
