@@ -1,5 +1,7 @@
 package com.rde.android.rdestocktacking
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -15,7 +17,7 @@ import java.io.FileWriter
 import java.io.IOException
 
 
-class ListActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity()  {
 
     private var fileName : String? = null
     private val lstBarcode = ArrayList<StockLine>();
@@ -36,7 +38,7 @@ class ListActivity : AppCompatActivity() {
             override fun itemEdit(index: Int) {
                 if(index < 0 || index >= lstBarcode.size)
                     return;
-
+                this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
                 val rowData = lstBarcode[index]
                 val fragmentManager = getSupportFragmentManager();
                 val dlg = RecordDlg.newInstance(rowData.location, rowData.barcode, rowData.qty);
@@ -46,6 +48,8 @@ class ListActivity : AppCompatActivity() {
                         rowData.qty = qty
                         this@ListActivity.rvLList.adapter?.notifyItemChanged(index)
                         updateEB()
+                        saveAll()
+                        this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
                     }
 
                 }
@@ -67,6 +71,7 @@ class ListActivity : AppCompatActivity() {
                     override fun onConfirm(itemIndex: Int) {
                         lstBarcode.removeAt(index)
                         this@ListActivity.rvLList.adapter?.notifyDataSetChanged();
+                        saveAll()
                         updateEB()
                     }
 
@@ -229,5 +234,6 @@ class ListActivity : AppCompatActivity() {
         const val TAG = "ListActivity"
 
     }
+
 
 }
