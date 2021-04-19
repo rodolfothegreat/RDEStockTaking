@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         rvMainList.adapter = StockTakingAdapter(lstBarcode, this);
         rvMainList.adapter?.notifyDataSetChanged()
 
-        btnAddSku.setOnClickListener(View.OnClickListener { v: View? -> addSku(v) })
+        btnAddSku.setOnClickListener(View.OnClickListener {  addSku() })
         btnClear.setOnClickListener(View.OnClickListener {
             clearList();
         })
@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun addSku(v: View?)
+    fun addSku()
     {
         val abarcode = edtBarcode.text.toString().trim();
         val alocation = edtLocation.text.toString().trim();
@@ -243,7 +243,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getDataFromFile_3(csvFileName : String)
     {
-        if (csvFileName == null || csvFileName.equals("")) return
+        if ( csvFileName.equals("")) return
         val root = getExternalFilesDir(null)
         val rootPath = root!!.absolutePath
         val afilename = rootPath + File.separator + csvFileName
@@ -252,7 +252,7 @@ class MainActivity : AppCompatActivity() {
             val lines: List<String> = File(afilename).readLines()
             lines.forEach{
                 val theFields = it.split(",".toRegex()).toTypedArray()
-                if (theFields == null || theFields.size < 3) {
+                if ( theFields.size < 3) {
                     return
                 }
                 val anObj = StockLine()
@@ -280,14 +280,13 @@ class MainActivity : AppCompatActivity() {
         val rootPath = root!!.absolutePath
         val afilename = rootPath + File.separator + csvFileName
         //String afilename = csvFileName;
-        if (lstBarcode.size === 0) {
+        if (lstBarcode.size == 0) {
             val afile = File(afilename)
             if (afile.exists()) {
                 afile.delete()
             }
             return false
         }
-        val afile = File(afilename)
         var fileWriter: FileWriter? = null
         var br: BufferedWriter? = null
         Log.d(TAG, "filename: $csvFileName")

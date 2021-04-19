@@ -132,7 +132,7 @@ class ListActivity : AppCompatActivity() {
 
     private fun getDataFromFile(csvFileName: String)
     {
-        if (csvFileName == null || csvFileName.equals("")) return
+        if (csvFileName.equals("")) return
         val root = getExternalFilesDir(null)
         val rootPath = root!!.absolutePath
         val afilename = rootPath + File.separator + csvFileName
@@ -141,7 +141,7 @@ class ListActivity : AppCompatActivity() {
             val lines: List<String> = File(afilename).readLines()
             lines.forEach{
                 val theFields = it.split(",".toRegex()).toTypedArray()
-                if (theFields == null || theFields.size < 3) {
+                if ( theFields.size < 3) {
                     return
                 }
                 val anObj = StockLine()
@@ -169,14 +169,13 @@ class ListActivity : AppCompatActivity() {
         val rootPath = root!!.absolutePath
         val afilename = rootPath + File.separator + csvFileName
         //String afilename = csvFileName;
-        if (lstBarcode.size === 0) {
+        if (lstBarcode.size == 0) {
             val afile = File(afilename)
             if (afile.exists()) {
                 afile.delete()
             }
             return false
         }
-        val afile = File(afilename)
         var fileWriter: FileWriter? = null
         var br: BufferedWriter? = null
         Log.d(MainActivity.TAG, "filename: $csvFileName")

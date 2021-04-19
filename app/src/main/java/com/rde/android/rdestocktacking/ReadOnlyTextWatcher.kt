@@ -10,7 +10,7 @@ internal class ReadOnlyTextWatcher(private val textEdit: EditText) : TextWatcher
     private var mustUndo = true
     override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
         if (mustUndo) {
-            originalText = charSequence?.toString()
+            originalText = charSequence.toString()
         }
     }
 
