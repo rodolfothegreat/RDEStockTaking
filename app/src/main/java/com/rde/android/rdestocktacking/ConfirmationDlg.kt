@@ -1,6 +1,7 @@
 package com.rde.android.rdestocktacking
 
 import android.app.Dialog
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,7 @@ class ConfirmationDlg: DialogFragment() {
         if (_dialog != null && getRetainInstance()) {
             _dialog.setDismissMessage(null);
         }
+        dialog?.ownerActivity?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
         super.onDestroyView()
     }
 
@@ -51,12 +53,15 @@ class ConfirmationDlg: DialogFragment() {
         val itemIndex = getArguments()?.getInt(ID_INDEX, -1);
         tvCMessage?.text = arguments?.getString(ID_MESSAGE, "")
 
-        btnCCancel?.setOnClickListener { dismiss() }
+        btnCCancel?.setOnClickListener {
+            dialog?.ownerActivity?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+            dismiss() }
 
         btnCOk?.setOnClickListener {
             if (itemIndex != null) {
                 idConfirmationListener?.onConfirm(itemIndex)
             }
+            dialog?.ownerActivity?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             dismiss()
         }
     }

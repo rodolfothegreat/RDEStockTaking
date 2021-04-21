@@ -52,6 +52,10 @@ class ListActivity : AppCompatActivity()  {
                         this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
                     }
 
+                    override fun oncancel() {
+                        this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+                    }
+
                 }
             }
 
@@ -221,12 +225,14 @@ class ListActivity : AppCompatActivity()  {
     override fun onPause() {
         super.onPause()
         saveAll()
+        this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
     }
 
     override fun onResume() {
         super.onResume()
         getAll()
         updateEB()
+        this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
     }
 
     companion object {

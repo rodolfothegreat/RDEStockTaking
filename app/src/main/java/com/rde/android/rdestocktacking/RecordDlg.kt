@@ -33,13 +33,17 @@ class RecordDlg : DialogFragment() {
         if (_dialog != null && getRetainInstance()) {
             _dialog.setDismissMessage(null);
         }
+        idSaveDlgListener?.oncancel()
         super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnRecCancel = view.btnRecCancel
-        btnRecCancel?.setOnClickListener { dismiss() }
+        btnRecCancel?.setOnClickListener {
+            idSaveDlgListener?.oncancel()
+            dismiss()
+        }
 
         tvDlgBarcode = view.tvDlgBarcode
         tvDlgBarcode?.text = arguments?.getString(ID_BARCODE, "")
@@ -81,6 +85,7 @@ class RecordDlg : DialogFragment() {
 
     interface IdSaveDlgListener {
         fun onsave(qty: Int)
+        fun oncancel()
     }
 
     companion object {
