@@ -12,7 +12,7 @@
     <string name="clear_data">Clear List</string>
     <string name="label_location">Location</string>
     <string name="label_barcode">Barcode</string>
-    <string name="label_qty">Quantity</string>
+    <string name="label_qty">Qty</string>
     <string name="view_list">View List</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="about">About</string>

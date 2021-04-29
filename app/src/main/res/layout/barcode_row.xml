@@ -11,7 +11,6 @@
         android:id="@+id/btnBRRowEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:background="@color/colorBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,9 +19,8 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="3dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toStartOf="@+id/btnBRRowEdit"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +30,7 @@
             android:id="@+id/tvBRLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:text="location"
             android:textColor="@color/colorPrimaryDark" />
@@ -41,7 +39,7 @@
             android:id="@+id/tvBRBarcode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:text="barcode"
             android:textColor="@color/colorPrimaryDark" />

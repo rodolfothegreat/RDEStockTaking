@@ -7,9 +7,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -32,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         rvMainList.adapter = StockTakingAdapter(lstBarcode, this);
         rvMainList.adapter?.notifyDataSetChanged()
 
-        btnAddSku.setOnClickListener(View.OnClickListener {  addSku() })
+        btnAddSku.setOnClickListener(View.OnClickListener { addSku() })
         btnClear.setOnClickListener(View.OnClickListener {
             clearList();
         })
@@ -50,13 +52,33 @@ class MainActivity : AppCompatActivity() {
         cbDefault1.setOnClickListener(View.OnClickListener { setEditBoxes() })
         cbHardEnter.setOnClickListener(View.OnClickListener { setEditBoxes() })
         btnView.setOnClickListener {
-            val intent  = Intent (this@MainActivity, ListActivity::class.java)
+            val intent  = Intent(this@MainActivity, ListActivity::class.java)
                 intent.putExtra(FILE_NAME_ITEM, FILE_NAME)
                 startActivity(intent);
 
         }
 
+        edtBarcode.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            editorActionListener(
+                v,
+                actionId,
+                event
+            )
+        })
 
+    }
+
+    private fun editorActionListener(v: TextView, actionId: Int, event: KeyEvent) : Boolean
+    {
+        if (actionId == EditorInfo.IME_ACTION_DONE || event.keyCode == KeyEvent.KEYCODE_ENTER) {
+            if(cbDefault1.isChecked && !v.text.toString().equals(""))
+            {
+                btnAddSku.performClick()
+
+            }
+            return true;
+        }
+        return false
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -188,18 +210,20 @@ class MainActivity : AppCompatActivity() {
             if(stockLine.barcode.equals(abarcode) && stockLine.location.equals(alocation))
             {
                 theStockLine = stockLine;
-                theStockLine.qty += qty;
-                saveAll();
-                rvMainList.adapter?.notifyItemChanged(i)
-                return;
+                //theStockLine.qty += qty;
+                //saveAll();
+                //rvMainList.adapter?.notifyItemChanged(i)
+                //return;
+                break;
             }
         }
         if(theStockLine == null)
         {
             theStockLine = StockLine(abarcode, alocation, 0);
+            lstBarcode.add(theStockLine);
         }
         theStockLine.qty += qty;
-        lstBarcode.add(theStockLine);
+
         rvMainList.adapter?.notifyDataSetChanged();
 
         edtBarcode.setText("")
@@ -241,7 +265,7 @@ class MainActivity : AppCompatActivity() {
         savePref()
     }
 
-    private fun getDataFromFile_3(csvFileName : String)
+    private fun getDataFromFile_3(csvFileName: String)
     {
         if ( csvFileName.equals("")) return
         val root = getExternalFilesDir(null)
@@ -269,7 +293,7 @@ class MainActivity : AppCompatActivity() {
             rvMainList.adapter?.notifyDataSetChanged();
 
         }
-        catch (ex : Exception)
+        catch (ex: Exception)
         {
             Log.e(TAG, " Error reading file " + afilename + " " + ex.message)
         }
