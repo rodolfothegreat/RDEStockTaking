@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         rvMainList.layoutManager = LinearLayoutManager(this)
         rvMainList.adapter = StockTakingAdapter(lstBarcode, this);
         rvMainList.adapter?.notifyDataSetChanged()
-
+        rvMainList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         btnAddSku.setOnClickListener(View.OnClickListener { addSku() })
         btnClear.setOnClickListener(View.OnClickListener {
             clearList();

@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_list.*
@@ -21,6 +24,7 @@ class ListActivity : AppCompatActivity()  {
 
     private var fileName : String? = null
     private val lstBarcode = ArrayList<StockLine>();
+    private var toast: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +36,21 @@ class ListActivity : AppCompatActivity()  {
         var anAdapter = StockListAdpter(lstBarcode, this);
         rvLList.adapter = anAdapter
         rvLList.adapter?.notifyDataSetChanged()
+        rvLList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         updateEB()
+
+        val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(rvLList) {
+            override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
+                var buttons = listOf<UnderlayButton>()
+                val deleteButton = deleteButton(position)
+                val editButton = editButton(position)
+                buttons = listOf(deleteButton, editButton)
+                return buttons
+            }
+        })
+
+        itemTouchHelper.attachToRecyclerView(rvLList)
+
 
         val listemery = object : StockListAdpter.IdListItemEdit{
             override fun itemEdit(index: Int) {
@@ -234,6 +252,109 @@ class ListActivity : AppCompatActivity()  {
         updateEB()
         this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
     }
+
+    private fun toast(text: String) {
+        toast?.cancel()
+        toast = Toast.makeText(this, text, Toast.LENGTH_SHORT)
+        toast?.show()
+    }
+
+
+    private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton {
+        return SwipeHelper.UnderlayButton(
+            this,
+            "Delete",
+            14.0f,
+            android.R.color.holo_red_light,
+            object : SwipeHelper.UnderlayButtonClickListener {
+                override fun onClick() {
+                    if(position < 0 || position >= lstBarcode.size)
+                        return;
+
+                    val rowData = lstBarcode[position]
+                    val fragmentManager = getSupportFragmentManager();
+                    val dlg = ConfirmationDlg.newInstance(
+                        "Are you sure you want to delete the barcode " + rowData.barcode + "?",
+                        1
+                    );
+                    dlg.show(fragmentManager, "iDDConfirmationlDlg")
+                    dlg.idConfirmationListener = object : ConfirmationDlg.IdConfirmDlgListener {
+                        override fun onConfirm(itemIndex: Int) {
+                            lstBarcode.removeAt(position)
+                            this@ListActivity.rvLList.adapter?.notifyDataSetChanged();
+                            saveAll()
+                            updateEB()
+                        }
+
+                    }
+
+
+
+                }
+            }
+        )
+    }
+
+    private fun editButton(position: Int) : SwipeHelper.UnderlayButton {
+        return SwipeHelper.UnderlayButton(
+            this,
+            "Edit",
+            14.0f,
+            android.R.color.holo_green_light,
+            object : SwipeHelper.UnderlayButtonClickListener {
+                override fun onClick() {
+                    if(position < 0 || position >= lstBarcode.size)
+                        return;
+                    this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+                    val rowData = lstBarcode[position]
+                    val fragmentManager = getSupportFragmentManager();
+                    val dlg = RecordDlg.newInstance(rowData.location, rowData.barcode, rowData.qty);
+                    dlg.show(fragmentManager, "iDDConfirmationlDlg")
+                    dlg.idSaveDlgListener = object : RecordDlg.IdSaveDlgListener{
+                        override fun onsave(qty: Int) {
+                            rowData.qty = qty
+                            this@ListActivity.rvLList.adapter?.notifyItemChanged(position)
+                            updateEB()
+                            saveAll()
+                            this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+                        }
+
+                        override fun oncancel() {
+                            this@ListActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+                        }
+
+                    }
+                }
+            })
+    }
+
+
+    private fun markAsUnreadButton(position: Int) : SwipeHelper.UnderlayButton {
+        return SwipeHelper.UnderlayButton(
+            this,
+            "Mark as unread",
+            14.0f,
+            android.R.color.holo_green_light,
+            object : SwipeHelper.UnderlayButtonClickListener {
+                override fun onClick() {
+                    toast("Marked as unread item $position")
+                }
+            })
+    }
+
+    private fun archiveButton(position: Int) : SwipeHelper.UnderlayButton {
+        return SwipeHelper.UnderlayButton(
+            this,
+            "Archive",
+            14.0f,
+            android.R.color.holo_blue_light,
+            object : SwipeHelper.UnderlayButtonClickListener {
+                override fun onClick() {
+                    toast("Archived item $position")
+                }
+            })
+    }
+
 
     companion object {
         const val PREF_FILE_NAME = "prefFileName"
