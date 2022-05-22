@@ -9,9 +9,11 @@ import android.os.Environment
 import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -86,7 +88,22 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.miAbout -> {
+                Toast.makeText(this,"About Selected", Toast.LENGTH_LONG).show()
+                val fragmentManager = getSupportFragmentManager();
+                val dlg = AboutDlg.newInstance("Are you sure you want to delete the whole list?");
+                dlg.show(fragmentManager, "iDDAboutlDlg")
 
+            }
+
+
+        }
+
+
+        return super.onOptionsItemSelected(item)
+    }
 
     fun shareData()
     {
