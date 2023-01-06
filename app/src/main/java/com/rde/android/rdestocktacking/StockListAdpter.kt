@@ -36,7 +36,7 @@ class StockListAdpter (val items: ArrayList<StockLine>, val context: Context) : 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         if(position >= itemCount)
         {
-            return;
+            return
         }
         val rowData = items[position]
         holder.tvRowBarcode.text = rowData.barcode;
@@ -50,10 +50,10 @@ class StockListAdpter (val items: ArrayList<StockLine>, val context: Context) : 
                 override fun onMenuItemClick(item: MenuItem?): Boolean {
                     when (item!!.itemId) {
                         R.id.miEdit -> {
-                            idListItemEdit?.itemEdit(position)
+                            idListItemEdit?.itemEdit(holder.getAdapterPosition())
                         }
                         R.id. miDelete -> {
-                           idListItemEdit?.itemDelete(position)
+                           idListItemEdit?.itemDelete(holder.getAdapterPosition())
                         }
                     }
                     return false

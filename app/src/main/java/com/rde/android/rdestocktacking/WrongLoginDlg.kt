@@ -18,7 +18,7 @@ class WrongLoginDlg : DialogFragment {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //    String title = getArguments().getString("title");
-        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this.context!! )
+        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this.requireContext() )
         alertDialogBuilder.setTitle(context?.getString(R.string.app_name))
         alertDialogBuilder.setMessage(mTitle)
         alertDialogBuilder.setPositiveButton("OK",

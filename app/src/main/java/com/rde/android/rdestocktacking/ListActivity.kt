@@ -125,6 +125,7 @@ class ListActivity : AppCompatActivity()  {
         return super.onOptionsItemSelected(item)
     }
 
+    @Deprecated("Deprecated in Java")
     public override fun onBackPressed()
     {
         super.onBackPressed()

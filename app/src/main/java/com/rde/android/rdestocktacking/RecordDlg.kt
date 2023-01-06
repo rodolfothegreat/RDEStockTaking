@@ -53,7 +53,7 @@ class RecordDlg : DialogFragment() {
 
 
         number_picker = view.number_picker
-        number_picker?.value = arguments!!.getInt(ID_QTY, 0)
+        number_picker?.value = requireArguments().getInt(ID_QTY, 0)
 
         btnRecOk = view.btnRecOk
         btnRecOk?.setOnClickListener {

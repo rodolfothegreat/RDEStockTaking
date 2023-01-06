@@ -56,8 +56,8 @@ class MainActivity : AppCompatActivity() {
         cbHardEnter.setOnClickListener(View.OnClickListener { setEditBoxes() })
         btnView.setOnClickListener {
             val intent  = Intent(this@MainActivity, ListActivity::class.java)
-                intent.putExtra(FILE_NAME_ITEM, FILE_NAME)
-                startActivity(intent);
+            intent.putExtra(FILE_NAME_ITEM, FILE_NAME)
+            startActivity(intent);
 
         }
 
@@ -212,8 +212,8 @@ class MainActivity : AppCompatActivity() {
             val newFragment =
                 WrongLoginDlg("Location cannot be blank");
             newFragment.show(supportFragmentManager, "loginDlg")
-            return;
-        }
+                return;
+       }
         if(qty == 0)
         {
             val newFragment =
